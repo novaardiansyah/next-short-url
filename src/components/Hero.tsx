@@ -20,16 +20,16 @@ export default function Hero() {
   const [snowflakes, setSnowflakes] = useState<Flake[]>([]);
 
   useEffect(() => {
-    const flakes: Flake[] = Array.from({ length: 5 }, (_, i) => ({
+    const flakes: Flake[] = Array.from({ length: 8 }, (_, i) => ({
       id: i,
-      left: Math.random() * 100, // Posisi awal horizontal (0 - 100%)
-      top: Math.random() * 100, // Posisi awal vertikal (0 - 100%)
-      duration: Math.random() * 12 + 6, // Durasi animasi antara 6-18 detik
+      left: Math.random() * 100, // Posisi horizontal acak
+      top: Math.random() * 80, // Spawn di atas viewport agar tidak hilang di mobile
+      duration: Math.random() * 10 + 6, // Durasi animasi antara 6-16 detik
       delay: Math.random() * 5, // Delay animasi acak
-      size: Math.random() * 15 + 10, // Ukuran antara 10px - 25px
-      xMovement: Math.random() * 200 - 100, // Gerakan horizontal lebih jauh (-100px hingga 100px)
-      yMovement: Math.random() * 200 - 100, // Gerakan vertikal lebih jauh (-100px hingga 100px)
-      rotationSpeed: Math.random() * 360, // Kecepatan putar (0 - 360 derajat)
+      size: Math.random() * 15 + 10, // Ukuran partikel (10px - 25px)
+      xMovement: Math.random() * 250 - 125, // Gerakan horizontal lebih luas (-125px sampai 125px)
+      yMovement: Math.random() * 250 - 100, // Gerakan vertikal lebih jauh (-100px hingga 250px)
+      rotationSpeed: Math.random() * 360, // Kecepatan putar acak (0 - 360 derajat)
     }));
 
     setSnowflakes(flakes);
@@ -43,12 +43,12 @@ export default function Hero() {
           <motion.div
             key={flake.id}
             className="absolute text-blue-300"
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.6 }}
             animate={{ 
               x: [flake.left, flake.left + flake.xMovement, flake.left], 
               y: [flake.top, flake.top + flake.yMovement, flake.top], 
               rotate: [0, flake.rotationSpeed, 0], 
-              opacity: [0, 1, 1, 0] // Muncul, tetap terang, lalu perlahan hilang
+              opacity: [0, 1, 1, 0] // Fade in, bertahan, lalu fade out
             }}
             transition={{
               duration: flake.duration,

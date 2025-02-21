@@ -9,7 +9,7 @@
     "lint": "next lint",
     "pm2:start": "pm2 start npm --name 'shorturl' -- run start",
     "pm2:stop": "pm2 stop shorturl",
-    "pm2:restart": "pm2 restart shorturl",
+    "pm2:restart": "next build && pm2 restart shorturl",
     "pm2:delete": "pm2 delete shorturl"
   },
   "dependencies": {

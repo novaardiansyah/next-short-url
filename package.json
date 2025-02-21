@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3001",
     "lint": "next lint",
     "pm2:start": "pm2 start npm --name 'shorturl' -- run start",
     "pm2:stop": "pm2 stop shorturl",

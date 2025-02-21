@@ -7,10 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "pm2:start": "pm2 start npm --name 'shortulr' -- run start",
-    "pm2:stop": "pm2 stop shortulr",
-    "pm2:restart": "pm2 restart shortulr",
-    "pm2:delete": "pm2 delete shortulr"
+    "pm2:start": "pm2 start npm --name 'shorturl' -- run start",
+    "pm2:stop": "pm2 stop shorturl",
+    "pm2:restart": "pm2 restart shorturl",
+    "pm2:delete": "pm2 delete shorturl"
   },
   "dependencies": {
     "@radix-ui/react-dropdown-menu": "^2.1.6",

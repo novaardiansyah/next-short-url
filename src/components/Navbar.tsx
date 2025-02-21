@@ -1,59 +1,87 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Menu, X, House, LayoutDashboard, CreditCard, PhoneCall } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import clsx from "clsx";
-import { CreditCardIcon, HouseIcon, LayoutDashboardIcon, PhoneCallIcon } from "lucide-react";
-import Link from "next/link";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <div
+    <nav
       className={clsx(
-        "fixed top-0 left-0 w-full flex justify-between items-center transition-all duration-300 z-50 py-4 px-10",
+        "fixed top-0 left-0 w-full flex items-center justify-between px-6 md:px-10 py-4 transition-all duration-300 z-50",
         isScrolled ? "bg-black/80 backdrop-blur-md shadow-md" : "bg-black"
       )}
     >
       {/* Kiri - Logo */}
-      <div className="flex">
-        <h1 className="text-2xl font-bold">Nova Short URL</h1>
+      <div className="flex items-center">
+        <h1 className="text-[18px] sm:text-2xl font-bold text-white">Nova Short URL</h1>
       </div>
 
-      {/* Tengah - Navigasi */}
-      <div className="absolute left-1/2 transform -translate-x-1/2 flex gap-10">
-        <Link href="/" className="text-gray-200 flex items-center gap-2"> 
-          <HouseIcon /> Home
+      {/* Tengah - Navigasi (Desktop) */}
+      <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 gap-10">
+        <Link href="/" className="text-gray-200 flex items-center gap-2">
+          <House size={18} /> Home
         </Link>
-
         <Link href="/features" className="text-gray-400 flex items-center gap-2">
-          <LayoutDashboardIcon /> Features
+          <LayoutDashboard size={18} /> Features
         </Link>
-
         <Link href="/pricing" className="text-gray-400 flex items-center gap-2">
-          <CreditCardIcon /> Pricing
+          <CreditCard size={18} /> Pricing
         </Link>
-
         <Link href="/contact" className="text-gray-400 flex items-center gap-2">
-          <PhoneCallIcon /> Contact
+          <PhoneCall size={18} /> Contact
         </Link>
       </div>
 
-      {/* Kanan - Mode Toggle & Tombol Masuk */}
-      <div className="flex gap-4 items-center">
+      {/* Kanan - Tombol Mode Toggle & Masuk (Desktop) */}
+      <div className="hidden md:flex gap-4 items-center">
         <Button>Masuk</Button>
         <Button variant="secondary">Daftar</Button>
       </div>
-    </div>
+
+      {/* Hamburger Menu (Mobile) */}
+      <button
+        className="md:hidden text-white ml-auto"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {isOpen ? <X size={28} /> : <Menu size={28} />}
+      </button>
+
+      {/* Menu Mobile */}
+      <div
+        className={clsx(
+          "fixed top-16 left-0 w-full bg-black/90 backdrop-blur-lg transition-all duration-300 flex flex-col gap-6 p-6",
+          isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        )}
+      >
+        <Link href="/" className="text-gray-200 flex items-center gap-2">
+          <House size={18} /> Home
+        </Link>
+        <Link href="/features" className="text-gray-400 flex items-center gap-2">
+          <LayoutDashboard size={18} /> Features
+        </Link>
+        <Link href="/pricing" className="text-gray-400 flex items-center gap-2">
+          <CreditCard size={18} /> Pricing
+        </Link>
+        <Link href="/contact" className="text-gray-400 flex items-center gap-2">
+          <PhoneCall size={18} /> Contact
+        </Link>
+        <Button className="mt-4">Masuk</Button>
+        <Button variant="secondary">Daftar</Button>
+      </div>
+    </nav>
   );
 }

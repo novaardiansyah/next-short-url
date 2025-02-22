@@ -37,7 +37,7 @@ export default function TestimonialSection() {
   return (
     <section className="py-16 text-center px-4 sm:px-0">
       <h2 className="sm:text-[48px] text-[30px] font-bold text-gray-800 dark:text-white mb-3 leading-tight">Hear From Our Community</h2>
-      <p className="sm:text-[22px] text-[16px] leading-tight text-gray-500 px-6 sm:px-0">Discover why our users love shortening their links with us and what <br className="hidden sm:block" /> they have to say about their experience</p>
+      <p className="sm:text-[20px] text-[16px] leading-tight text-gray-500 px-6 sm:px-0">Discover why our users love shortening their links with us and what <br className="hidden sm:block" /> they have to say about their experience</p>
       <div className="flex justify-center items-center mt-12">
         <ChevronLeftIcon size={36} onClick={prevTestimonial} className="mr-6 dark:text-gray-500 dark:hover:text-gray-300 text-gray-300 hover:text-gray-500 cursor-pointer" />
 

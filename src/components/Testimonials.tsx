@@ -35,7 +35,7 @@ export default function TestimonialSection() {
   })
 
   return (
-    <section className="py-16 bg-gray-100 dark:bg-gray-900 text-center px-4 sm:px-0">
+    <section className="py-16 text-center px-4 sm:px-0">
       <h2 className="sm:text-[48px] text-[30px] font-bold text-gray-800 dark:text-white mb-3 leading-tight">Hear From Our Community</h2>
       <p className="sm:text-[22px] text-[16px] leading-tight text-gray-500 px-6 sm:px-0">Discover why our users love shortening their links with us and what <br className="hidden sm:block" /> they have to say about their experience</p>
       <div className="flex justify-center items-center mt-12">

@@ -55,12 +55,16 @@ export default function Navbar() {
       </div>
 
       {/* Hamburger Menu (Mobile) */}
-      <button
-        className="md:hidden text-white ml-auto"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {isOpen ? <X size={28} /> : <Menu size={28} />}
-      </button>
+      <div className="md:hidden flex items-center justify-end gap-2">
+        <ModeToggle  />
+
+        <button
+          className="text-black dark:text-white "
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+      </div>
 
       {/* Menu Mobile */}
       <div

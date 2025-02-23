@@ -102,9 +102,9 @@ export default function ShortenAndQRCodeTabs() {
         </CardContent>
       </Card>
 
-      <div className="mt-10 text-center">
-        <h1 className="mb-2 text-xl sm:text-2xl font-bold">Sign Up for Free, Get Started Now!</h1>
-        <p className="text-sm">No credit card required, expand your free plans benefit</p>
+      <div className="mt-10 text-center px-6 sm:px-0">
+        <h1 className="mb-2 text-xl sm:text-2xl font-bold">Sign Up for Free, <br className="block sm:hidden" />Get Started Now!</h1>
+        <p className="text-sm">No credit card required, <br className="block sm:hidden" />expand your free plans benefit</p>
 
         <FreePlan activeTab={activeTab} />
       </div>

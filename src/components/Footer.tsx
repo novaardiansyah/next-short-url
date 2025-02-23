@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Github, XIcon, FacebookIcon, InstagramIcon, LinkedinIcon } from "lucide-react";
-import Link from "next/link";
+import ListMenu from "./Navbar/ListMenu";
 
 export default function Footer() {
   return (
@@ -9,10 +9,7 @@ export default function Footer() {
         <CardContent className="p-6 flex flex-col md:flex-row justify-between items-center gap-6">
           {/* Navigation */}
           <nav className="flex gap-6 text-sm font-medium">
-            <Link href="/" className="hover:text-blue-500">Home</Link>
-            <Link href="/features" className="hover:text-blue-500">Features</Link>
-            <Link href="/pricing" className="hover:text-blue-500">Pricing</Link>
-            <Link href="/contact" className="hover:text-blue-500">Contact</Link>
+            <ListMenu withIcon={false} />
           </nav>
           
           {/* Social Media */}

@@ -1,27 +1,9 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { BarChart3Icon, LinkIcon, QrCodeIcon } from "lucide-react";
-
-const features = [
-  {
-    icon: <LinkIcon size={40} className="text-blue-500" />,
-    title: "Short Links",
-    description: "Effortlessly shorten URLs to enhance sharing, and streamline your digital experience.",
-  },
-  {
-    icon: <QrCodeIcon size={40} className="text-green-500" />,
-    title: "QR Codes",
-    description: "Quickly generate custom QR codes for effortless access to your links anytime, anywhere.",
-  },
-  {
-    icon: <BarChart3Icon size={40} className="text-purple-500" />,
-    title: "Analytics",
-    description: "Gain valuable insights by tracking your link performance with comprehensive analytics.",
-  },
-];
+import { features } from "@/data/Features";
 
 export default function Features() {
   return (
-    <section className="py-16 text-center px-6">
+    <section className="py-16 text-center px-6" id="features">
       <h2 className="sm:text-[48px] text-[30px] font-bold text-gray-800 dark:text-white mb-3 leading-tight">
         Advanced and Powerful Features
       </h2>

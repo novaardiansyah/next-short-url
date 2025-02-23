@@ -33,7 +33,7 @@ export default function ShortenAndQRCodeTabs() {
 
   return (
     <>
-      <Card className="w-full max-w-[90%] sm:w-[60%] mx-auto sm:mt-[-4rem] mt-[-6rem] mb-8 pt-12 pb-6 shadow-md relative z-11">
+      <Card className="w-full max-w-[90%] sm:w-[60%] mx-auto mt-[-3.5rem] mb-8 pt-12 pb-6 shadow-md relative z-11">
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab} defaultValue="shorten" className="w-full">
             <TabsList className="grid w-full grid-cols-2 h-14 px-2 sm:px-3">

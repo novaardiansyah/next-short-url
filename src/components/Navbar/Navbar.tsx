@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import { Menu, X, House, LayoutDashboard, CreditCard, PhoneCall } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import clsx from "clsx";
-import { ModeToggle } from "./ModeToggle";
+import { ModeToggle } from "../ModeToggle";
+import ListMenu from "./ListMenu";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -18,6 +18,10 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const hideOnMobileClick = () => {
+    setIsOpen(false);
+  };
 
   return (
     <nav
@@ -33,18 +37,7 @@ export default function Navbar() {
 
       {/* Tengah - Navigasi (Desktop) */}
       <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 gap-10">
-        <Link href="/" className="dark:text-gray-200 flex items-center gap-2">
-          <House size={18} /> Home
-        </Link>
-        <Link href="/features" className="dark:text-gray-400 text-gray-500 flex items-center gap-2">
-          <LayoutDashboard size={18} /> Features
-        </Link>
-        <Link href="/pricing" className="dark:text-gray-400 text-gray-500 flex items-center gap-2">
-          <CreditCard size={18} /> Pricing
-        </Link>
-        <Link href="/contact" className="dark:text-gray-400 text-gray-500 flex items-center gap-2">
-          <PhoneCall size={18} /> Contact
-        </Link>
+        <ListMenu />
       </div>
 
       {/* Kanan - Tombol Mode Toggle & Masuk (Desktop) */}
@@ -69,22 +62,11 @@ export default function Navbar() {
       {/* Menu Mobile */}
       <div
         className={clsx(
-          "fixed top-16 left-0 w-full bg-black/90 backdrop-blur-lg transition-all duration-300 flex flex-col gap-6 p-6",
+          "fixed top-16 left-0 w-full bg-white/90 dark:bg-black/90 backdrop-blur-lg transition-all duration-300 flex flex-col gap-6 p-6",
           isOpen ? "opacity-100 visible" : "opacity-0 invisible"
         )}
       >
-        <Link href="/" className="text-gray-200 flex items-center gap-2">
-          <House size={18} /> Home
-        </Link>
-        <Link href="/features" className="text-gray-400 flex items-center gap-2">
-          <LayoutDashboard size={18} /> Features
-        </Link>
-        <Link href="/pricing" className="text-gray-400 flex items-center gap-2">
-          <CreditCard size={18} /> Pricing
-        </Link>
-        <Link href="/contact" className="text-gray-400 flex items-center gap-2">
-          <PhoneCall size={18} /> Contact
-        </Link>
+        <ListMenu hideOnMobileClick={hideOnMobileClick} />
         <Button className="mt-4">Masuk</Button>
         <Button variant="secondary">Daftar</Button>
       </div>

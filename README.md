@@ -27,9 +27,9 @@ Get a glimpse of the app's enchanting world by exploring the current progress at
 
 <div style="margin-bottom: 5px">
   <img src="public/capture/image-1.jpg" alt="image-1" style="width: 300px; margin-right: 10px" />
+  <img src="public/capture/image-4.jpg" alt="image-2" style="width: 300px; margin-right: 10px" />
   <img src="public/capture/image-2.jpg" alt="image-2" style="width: 300px; margin-right: 10px" />
   <img src="public/capture/image-3.jpg" alt="image-2" style="width: 300px; margin-right: 10px" />
-  <img src="public/capture/image-4.jpg" alt="image-2" style="width: 300px; margin-right: 10px" />
 </div>
 
 ## Project Status 🚀 

@@ -25,6 +25,13 @@ Need to chat? Feel free to drop me a line via [Email](mailto:novaardiansyah78@gm
 
 Get a glimpse of the app's enchanting world by exploring the current progress at [live demo](https://shorturl.novaardiansyah.my.id/). Feast your eyes on these snapshots that showcase the app's dynamic essence.
 
+<div style="margin-bottom: 5px">
+  <img src="public/capture/image-1.jpg" alt="image-1" style="width: 300px; margin-right: 10px" />
+  <img src="public/capture/image-2.jpg" alt="image-2" style="width: 300px; margin-right: 10px" />
+  <img src="public/capture/image-3.jpg" alt="image-2" style="width: 300px; margin-right: 10px" />
+  <img src="public/capture/image-4.jpg" alt="image-2" style="width: 300px; margin-right: 10px" />
+</div>
+
 ## Project Status 🚀 
 
 ![stages](https://img.shields.io/badge/stages-development-informational)

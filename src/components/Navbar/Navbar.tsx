@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import clsx from "clsx";
 import { ModeToggle } from "../ModeToggle";
 import ListMenu from "./ListMenu";
+import AuthButtons from "./AuthButtons";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -43,8 +44,7 @@ export default function Navbar() {
       {/* Kanan - Tombol Mode Toggle & Masuk (Desktop) */}
       <div className="hidden md:flex gap-4 items-center">
         <ModeToggle />
-        <Button variant="outline">Log in</Button>
-        <Button>Sign Up for free</Button>
+        <AuthButtons />
       </div>
 
       {/* Hamburger Menu (Mobile) */}
@@ -67,8 +67,7 @@ export default function Navbar() {
         )}
       >
         <ListMenu hideOnMobileClick={hideOnMobileClick} />
-        <Button className="mt-4">Masuk</Button>
-        <Button variant="secondary">Daftar</Button>
+        <AuthButtons customClass="mt-1" />
       </div>
     </nav>
   );

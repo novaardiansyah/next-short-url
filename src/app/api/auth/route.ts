@@ -6,10 +6,12 @@ const API_ROUTES = {
   register: '/auth/register',
   logout: '/auth/logout',
   refresh: '/auth/refresh',
+  me: '/auth/me',
 };
 
 export async function POST(req: Request) {
   const { action, ...body } = await req.json();
+  const token = req.headers.get('Authorization');
 
   try {
     let response;
@@ -21,11 +23,13 @@ export async function POST(req: Request) {
         response = await apiFetch(API_ROUTES.register, { method: 'POST', body }, false);
         break;
       case 'logout':
-        const token = req.headers.get('Authorization');
         response = await apiFetch(API_ROUTES.logout, { method: 'POST', headers: { Authorization: `Bearer ${token}` } });
         break;
       case 'refresh':
         response = await apiFetch(API_ROUTES.refresh, { method: 'POST', body });
+        break;
+      case 'me':
+        response = await apiFetch(API_ROUTES.me, { method: 'GET', headers: { Authorization: `Bearer ${token}` } });
         break;
       default:
         return NextResponse.json({ error: 'Invalid action' }, { status: 400 });

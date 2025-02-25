@@ -17,10 +17,10 @@ export async function POST(req: Request) {
     let response;
     switch (action) {
       case 'login':
-        response = await apiFetch(API_ROUTES.login, { method: 'POST', body }, false);
+        response = await apiFetch(API_ROUTES.login, { method: 'POST', body });
         break;
       case 'register':
-        response = await apiFetch(API_ROUTES.register, { method: 'POST', body }, false);
+        response = await apiFetch(API_ROUTES.register, { method: 'POST', body });
         break;
       case 'logout':
         response = await apiFetch(API_ROUTES.logout, { method: 'POST', headers: { Authorization: `Bearer ${token}` } });

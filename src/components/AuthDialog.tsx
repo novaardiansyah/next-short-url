@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { CustomAlert } from "./ui/alert/CustomAlert";
 import { toast } from "sonner"
+import { clientFetch } from "@/lib/clientFetch";
 
 interface AuthDialogProps {
   open: boolean;
@@ -57,27 +58,29 @@ export default function AuthDialog({ open, setOpen, isLogin, setIsLogin }: AuthD
     userData.name = name;
 
     try {
-      const res = await fetch('/api/auth', {
+      const res = await clientFetch('/auth', {
         method: 'POST',
-        body: JSON.stringify({ action: 'login', ...userData }),
-      });
+        body: { action: 'login', ...userData }  ,
+      })
 
       const data = await res.json();
+      
+      if (res.status !== 200) {
+        return setAlertMsg({ variant: 'destructive', title: 'Error!', description: 'Your credentials are incorrect, please try again.' });
+      }
+      
+      if (!userData?.hasRegister) {
+        setOpen(false)
 
-      if (res.status === 200) {
-        handleMe()
         toast.success(`Hi ${name}, welcome back!`, {
           duration: 5000,
-        });
-        setOpen(false);
-        return localStorage.setItem('access_token', data.access_token);
+        })
       }
 
-      return setAlertMsg({ variant: 'destructive', title: 'Error!', description: 'Your credentials are incorrect, please try again.' });
-    } catch (err) {
-      // Todo: Handle error
+      localStorage.setItem('access_token', data.access_token)
+      handleMe()
     } finally {
-      setIsLoading(false)
+      return setIsLoading(false)
     }
   }
 
@@ -86,46 +89,46 @@ export default function AuthDialog({ open, setOpen, isLogin, setIsLogin }: AuthD
     userData.name = name;
 
     try {
-      const res = await fetch('/api/auth', {
+      const res = await clientFetch('/auth', {
         method: 'POST',
-        body: JSON.stringify({ action: 'register', ...userData }),
-      });
-
-      const data = await res.json();
-
-      if (res.status === 201) {
-        setIsLogin(true);
-        return setAlertMsg({ variant: 'default', title: 'Success!', description: 'Your account has been created successfully. Please login to continue.' });
-      }
-
+        body: { action: 'register', ...userData },
+      })
+  
+      const data = await res.json()
+  
       if (res.status === 422) {
         return setInvalidField(data);
       }
+  
+      if (res.status !== 201) {
+        return setAlertMsg({ variant: 'destructive', title: 'Error!', description: 'Something went wrong, please try again.' });
+      }
+  
+      toast.success(`Hi ${name}, we glad to have you here! from now on you can login to your account.`, {
+        duration: 5000,
+      })
 
-      return setAlertMsg({ variant: 'destructive', title: 'Error!', description: 'Something went wrong, please try again.' });
-    } catch (err) {
-      // Todo: Handle error
+      setOpen(false)
+      handleLogin({ hasRegister: true, ...userData })
     } finally {
-      setIsLoading(false)
+      return setIsLoading(false)
     }
   }
 
   const handleMe = async () => {
     try {
-      const res = await fetch('/api/auth', {
+      const res = await clientFetch('/auth', {
         method: 'POST',
         body: JSON.stringify({ action: 'me' }),
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-        }
-      });
+      })
+
+      const data = await res.json()
 
       if (res.status === 200) {
-        const data = await res.json()
         localStorage.setItem('users', JSON.stringify(data));
       }
-    } catch (err) {
-      // Todo: Handle error
+    } finally {
+      return true
     }
   }
 

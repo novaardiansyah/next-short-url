@@ -9,6 +9,7 @@ import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { CustomAlert } from "./ui/alert/CustomAlert";
 import { toast } from "sonner"
 import { clientFetch } from "@/lib/clientFetch";
+import { useAuth } from "@/context/auth-context";
 
 interface AuthDialogProps {
   open: boolean;
@@ -23,6 +24,7 @@ export default function AuthDialog({ open, setOpen, isLogin, setIsLogin }: AuthD
   const [invalidField, setInvalidField] = useState<Record<string, string[]>>({});
   const formRef = useRef<HTMLFormElement>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
 
   useEffect(() => {
     if (!open) {
@@ -64,11 +66,11 @@ export default function AuthDialog({ open, setOpen, isLogin, setIsLogin }: AuthD
       })
 
       const data = await res.json();
-      
+
       if (res.status !== 200) {
         return setAlertMsg({ variant: 'destructive', title: 'Error!', description: 'Your credentials are incorrect, please try again.' });
       }
-      
+
       if (!userData?.hasRegister) {
         setOpen(false)
 
@@ -93,17 +95,17 @@ export default function AuthDialog({ open, setOpen, isLogin, setIsLogin }: AuthD
         method: 'POST',
         body: { action: 'register', ...userData },
       })
-  
+
       const data = await res.json()
-  
+
       if (res.status === 422) {
         return setInvalidField(data);
       }
-  
+
       if (res.status !== 201) {
         return setAlertMsg({ variant: 'destructive', title: 'Error!', description: 'Something went wrong, please try again.' });
       }
-  
+
       toast.success(`Hi ${name}, we glad to have you here! from now on you can login to your account.`, {
         duration: 5000,
       })
@@ -124,9 +126,11 @@ export default function AuthDialog({ open, setOpen, isLogin, setIsLogin }: AuthD
 
       const data = await res.json()
 
-      if (res.status === 200) {
-        localStorage.setItem('users', JSON.stringify(data));
-      }
+      if (res.status === 200) return login(data)
+
+      return toast.error('Something went wrong, please try again.', {
+        duration: 5000,
+      })
     } finally {
       return true
     }

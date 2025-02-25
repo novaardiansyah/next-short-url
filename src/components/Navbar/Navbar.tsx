@@ -2,15 +2,26 @@
 
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import clsx from "clsx";
 import { ModeToggle } from "../ModeToggle";
 import ListMenu from "./ListMenu";
 import AuthButtons from "./AuthButtons";
+import { useAuth } from "@/context/auth-context";
+import ConfirmDialog from "@/components/ui/alert-dialog/customDialog";
+import { toast } from "sonner";
+import { clientFetch } from "@/lib/clientFetch";
+import UserButtons from "./UserButtons";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const { user, logout } = useAuth();
+
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+  const [confirmDialogProps, setConfirmDialogProps] = useState<{ description?: string, handleConfirm: () => void }>({
+    description: '',
+    handleConfirm: () => {}
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,6 +35,33 @@ export default function Navbar() {
     setIsOpen(false);
   };
 
+  const handleLogout = () => {
+    setConfirmDialogProps({
+      description: "You will be logged out.",
+      handleConfirm: confirmLogout
+    });
+    setOpenConfirmDialog(true);
+  };
+
+  const confirmLogout = async () => {
+    try {
+      const res = await clientFetch('/auth', {
+        method: 'POST',
+        body: JSON.stringify({ action: 'logout' }),
+      })
+
+      if (res.status == 200) {
+        logout()
+        toast.success("You have been logged out.")
+        return true
+      }
+
+      toast.error("Something went wrong.")
+    } finally {
+      setOpenConfirmDialog(false)
+    }
+  }
+
   return (
     <nav
       className={clsx(
@@ -31,6 +69,8 @@ export default function Navbar() {
         isScrolled ? "dark:bg-black/90 backdrop-blur-md shadow-md" : "dark:bg-black"
       )}
     >
+      <ConfirmDialog open={openConfirmDialog} setOpen={setOpenConfirmDialog} description={confirmDialogProps.description} handleConfirm={confirmDialogProps.handleConfirm} />
+
       {/* Kiri - Logo */}
       <div className="flex items-center">
         <h1 className="text-[18px] sm:text-2xl font-bold">Nova Short URL</h1>
@@ -44,7 +84,7 @@ export default function Navbar() {
       {/* Kanan - Tombol Mode Toggle & Masuk (Desktop) */}
       <div className="hidden md:flex gap-4 items-center">
         <ModeToggle />
-        <AuthButtons />
+        {user ? <UserButtons handleLogout={handleLogout} /> : <AuthButtons />}
       </div>
 
       {/* Hamburger Menu (Mobile) */}
@@ -67,7 +107,7 @@ export default function Navbar() {
         )}
       >
         <ListMenu hideOnMobileClick={hideOnMobileClick} />
-        <AuthButtons customClass="mt-1" />
+        {user ? <UserButtons handleLogout={handleLogout} customClass="mt-1" /> : <AuthButtons customClass="mt-1"/>}
       </div>
     </nav>
   );

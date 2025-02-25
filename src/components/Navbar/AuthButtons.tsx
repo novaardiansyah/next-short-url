@@ -1,8 +1,8 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button } from '../ui/button'
-import AuthDialog from '../AuthDialog';
+import { Button } from '@/components/ui/button'
+import AuthDialog from '@/components/AuthDialog';
 
 interface AuthButtonsProps {
   customClass?: string

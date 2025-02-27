@@ -10,6 +10,7 @@ import { CustomAlert } from "./ui/alert/CustomAlert";
 import { toast } from "sonner"
 import { clientFetch } from "@/lib/clientFetch";
 import { useAuth } from "@/context/auth-context";
+import { ButtonLoading } from "./ui/button/ButtonLoading";
 
 interface AuthDialogProps {
   open: boolean;
@@ -36,6 +37,7 @@ export default function AuthDialog({ open, setOpen, isLogin, setIsLogin }: AuthD
   const handleChangeAuthMode = (isLogin: boolean) => {
     formRef.current?.reset();
     setAlertMsg({});
+    setInvalidField({});
     setIsLogin(isLogin);
   };
 
@@ -163,9 +165,12 @@ export default function AuthDialog({ open, setOpen, isLogin, setIsLogin }: AuthD
             {invalidField['password'] && <p className="text-[0.8rem] font-medium text-destructive">{invalidField['password'][0]}</p>}
           </div>
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Processing..." : isLogin ? "Login" : "Create account"}
-          </Button>
+          { isLoading ? <ButtonLoading className="w-full" /> : (
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLogin ? "Login" : "Create account"}
+              </Button>
+            )
+          }
         </form>
         <p className="text-sm text-center mt-2">
           {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}

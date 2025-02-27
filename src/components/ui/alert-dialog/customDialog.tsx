@@ -1,5 +1,4 @@
 import React from 'react'
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,15 +9,17 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { ButtonLoading } from '../button/ButtonLoading';
 
 interface ConfirmDialogProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   handleConfirm: () => void;
   description?: string;
+  isLoading?: boolean;
 }
 
-function ConfirmDialog({ open, setOpen, handleConfirm, description }: ConfirmDialogProps) {
+function ConfirmDialog({ open, setOpen, handleConfirm, description, isLoading }: ConfirmDialogProps) {
   return (
     <AlertDialog open={open}>
       <AlertDialogContent>
@@ -30,7 +31,12 @@ function ConfirmDialog({ open, setOpen, handleConfirm, description }: ConfirmDia
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={() => setOpen(!open)}>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleConfirm}>Continue</AlertDialogAction>
+          { isLoading ? <ButtonLoading /> : (
+              <AlertDialogAction onClick={handleConfirm}>
+                Yes, I&apos;m sure
+              </AlertDialogAction>
+            )
+          }
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

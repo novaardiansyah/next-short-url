@@ -16,6 +16,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const [confirmDialogProps, setConfirmDialogProps] = useState<{ description?: string, handleConfirm: () => void }>({
@@ -44,20 +45,24 @@ export default function Navbar() {
   };
 
   const confirmLogout = async () => {
+    setIsLoading(true);
+
     try {
       const res = await clientFetch('/auth', {
         method: 'POST',
         body: JSON.stringify({ action: 'logout' }),
       })
 
+      logout()
+
       if (res.status == 200) {
-        logout()
         toast.success("You have been logged out.")
         return true
       }
 
-      toast.error("Something went wrong.")
+      toast.error("Your session has expired. Already logged out.")
     } finally {
+      setIsLoading(false);
       setOpenConfirmDialog(false)
     }
   }
@@ -69,7 +74,7 @@ export default function Navbar() {
         isScrolled ? "dark:bg-black/90 backdrop-blur-md shadow-md" : "dark:bg-black"
       )}
     >
-      <ConfirmDialog open={openConfirmDialog} setOpen={setOpenConfirmDialog} description={confirmDialogProps.description} handleConfirm={confirmDialogProps.handleConfirm} />
+      <ConfirmDialog open={openConfirmDialog} setOpen={setOpenConfirmDialog} description={confirmDialogProps.description} handleConfirm={confirmDialogProps.handleConfirm} isLoading={isLoading} />
 
       {/* Kiri - Logo */}
       <div className="flex items-center">

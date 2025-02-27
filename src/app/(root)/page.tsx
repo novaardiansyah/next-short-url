@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar/Navbar";
 import PricingPlan from "@/components/PricingPlan";
-import ShortenAndQRCodeTabs from "@/components/ShortenAndQRCodeTabs";
+import ShortenAndQRCodeTabs from "@/components/ShortenUrl/ShortenUrl";
 import Stat from "@/components/Stat";
 import Testimonials from "@/components/Testimonials";
 export default function Home() {

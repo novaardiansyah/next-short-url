@@ -28,31 +28,3 @@ export async function apiFetch(
 
   return fetchWithRetry();
 }
-
-async function refreshAccessToken(): Promise<boolean> {
-  const isBrowser = typeof window !== 'undefined';
-
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_LARAVEL_API_URL}/refresh-token`, {
-      method: 'POST',
-      credentials: 'include', // * Important so that the refresh_token cookie is sent
-    });
-
-    if (res.status === 401 || res.status === 403) {
-      // * refreshTokenExpired —TriggerLogout
-      if (isBrowser) {
-        localStorage.removeItem('access_token');
-        window.location.href = '/auth/login'; // * Redirect to the login page
-      }
-      return false;
-    }
-
-    const data: { access_token: string } = await res.json();
-
-    if (isBrowser) localStorage.setItem('access_token', data.access_token);
-    return true;
-  } catch (error) {
-    console.error('Error refreshing token:', error);
-    return false;
-  }
-}

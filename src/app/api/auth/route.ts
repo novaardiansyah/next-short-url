@@ -12,6 +12,7 @@ const API_ROUTES = {
 export async function POST(req: Request) {
   const { action, ...body } = await req.json();
   const token = req.headers.get('Authorization');
+  const cookies = req.headers.get("cookie");
 
   try {
     let response;
@@ -26,7 +27,7 @@ export async function POST(req: Request) {
         response = await apiFetch(API_ROUTES.logout, { method: 'POST', headers: { Authorization: `Bearer ${token}` } });
         break;
       case 'refresh':
-        response = await apiFetch(API_ROUTES.refresh, { method: 'POST', body });
+        response = await apiFetch(API_ROUTES.refresh, { method: 'POST', body, headers: cookies ? { cookie: cookies } : undefined });
         break;
       case 'me':
         response = await apiFetch(API_ROUTES.me, { method: 'GET', headers: { Authorization: `Bearer ${token}` } });

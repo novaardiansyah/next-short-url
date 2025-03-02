@@ -4,7 +4,7 @@ export async function clientFetch(
   retry: boolean = true
 ): Promise<Response> {
   endpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
-
+  
   const fetchWithRetry = async (retry: boolean = true): Promise<Response> => {
     try {
       const res = await fetch(`api/${endpoint}`, {
@@ -37,18 +37,19 @@ export async function clientFetch(
       throw new Error(error instanceof Error ? error.message : String(error));
     }
   };
-
   return fetchWithRetry(retry);
 }
 
 async function refreshAccessToken(): Promise<boolean> {
+  const logoutEvent = new Event("logout");
+
   try {
     const res = await fetch('/api/auth', {
       method: 'POST',
       body: JSON.stringify({ action: 'refresh' }),
       credentials: 'include', // * Important so that the refresh_token cookie is sent
     });
-
+    
     if (res.status === 401 || res.status === 403) {
       // * refreshTokenExpired —TriggerLogout
       throw new Error('Refresh token expired');
@@ -59,7 +60,7 @@ async function refreshAccessToken(): Promise<boolean> {
     localStorage.setItem('access_token', data.access_token);
     return true;
   } catch (error) {
-    localStorage.removeItem('access_token');
+    window.dispatchEvent(logoutEvent);
     return false;
   }
 }

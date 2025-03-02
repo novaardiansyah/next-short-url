@@ -3,8 +3,8 @@ export async function apiFetch(
   options: RequestInit & { body?: any } = {},
 ): Promise<Response> {
   endpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
-
-  const fetchWithRetry = async (): Promise<Response> => {
+  
+  const doFetch = async (): Promise<Response> => {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_LARAVEL_API_URL}/${endpoint}`, {
         ...options,
@@ -19,12 +19,12 @@ export async function apiFetch(
         },
         credentials: 'include', // * Important so that the refresh_token cookie is sent
       });
-      
+
       return res;
     } catch (error) {
       throw new Error(error instanceof Error ? error.message : String(error));
     }
   };
 
-  return fetchWithRetry();
+  return doFetch();
 }

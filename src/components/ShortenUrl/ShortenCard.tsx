@@ -9,6 +9,7 @@ import { clientFetch } from '@/lib/clientFetch';
 import { ButtonLoading } from '../ui/button/ButtonLoading';
 import { toast } from "sonner"
 import Captcha from '../Captcha';
+import { CopyIcon } from 'lucide-react';
 
 interface ShortenCardProps {
   setOpenLoginDialog: (open: boolean) => void;
@@ -44,19 +45,29 @@ function ShortenCard({ setOpenLoginDialog }: ShortenCardProps) {
         setShortenedUrl(`${process.env.NEXT_PUBLIC_SHORT_DOMAIN}/${data?.data?.short}`);
         return
       }
-      
-      let error = 'Something went wrong, please try again.'
-      if (res.status === 422) {
-        error = data?.message || data[Object.keys(data)[0]][0]
-      }
 
-      toast.error(error)
-    } finally {
+      const error = res.status === 422 
+        ? data?.message || data[Object.keys(data)[0]][0]
+        : res.status === 401
+        ? 'Your session has expired, please login again.'
+        : 'Something went wrong, please try again.'
+
+      throw new Error(error)    
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'An unknown error occurred')    
+    }
+    finally {
       setCaptchaKey(Math.random())
       setToken(null)
       return setIsLoading(false)
     }
   };
+
+  const handleCopy = () => {
+    if (!shortenedUrl) return
+    navigator.clipboard.writeText(shortenedUrl)
+    toast.success('Successfully copied to clipboard')
+  }
 
   return (
     <Card>
@@ -81,9 +92,12 @@ function ShortenCard({ setOpenLoginDialog }: ShortenCardProps) {
         {shortenedUrl && user && (
           <div className="text-center mt-2">
             <p className="text-xs sm:text-sm text-gray-400">Here is your shortened URL</p>
-            <a href={shortenedUrl} target="_blank" className="text-blue-500">
-              {shortenedUrl}
-            </a>
+            <div className='flex items-center justify-center'>
+              <a href={shortenedUrl} target="_blank" className="text-blue-500">
+                {shortenedUrl}
+              </a>
+              <CopyIcon className="inline-block ml-2 cursor-pointer hover:text-blue-500 transition-colors duration-200" onClick={handleCopy} size={16} />
+            </div>
           </div>
         )}
       </CardContent>

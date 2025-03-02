@@ -16,6 +16,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
+
+    const handleLogout = () => {
+      // ! Global logout triggered!
+      logout()
+    };
+
+    window.addEventListener("logout", handleLogout);
+    return () => window.removeEventListener("logout", handleLogout);
   }, []);
 
   const login = (userData: any) => {
